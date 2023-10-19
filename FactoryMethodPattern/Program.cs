@@ -1,4 +1,5 @@
 ﻿using FactoryMethodPattern;
+using System.ComponentModel.Design;
 
 namespace FactoryMethodPattern
 {
@@ -6,132 +7,254 @@ namespace FactoryMethodPattern
     {
         static void Main(string[] args)
         {
+            CaculatorFactory factory = null;
+            ICaculator caculator = null;
             while (true)
             {
-                Console.Write("請輸入運算子(+, -)：");
-                var opr = Console.ReadKey().KeyChar;
-                CaculatorFactory factory = null;
+                Console.Write("請輸入運算方法(+, -, *, /)：");
+                var opr=Console.ReadKey().KeyChar;
+                Console.WriteLine();
                 if (opr == '+')
                 {
-                    factory = new AdditionCaculatorFactory();
+                    factory = new AdditionFactory();
                 }
                 else if (opr == '-')
                 {
-                    factory = new SubtractionCaculatorFactory();
+                    factory= new SubtractionFactory();
                 }
-                Console.WriteLine();
-                var caculator = factory.CreateCaculator();
-                caculator.InputOperandAndCheck();
+                else if (opr=='*')
+                {
+                    factory = new MutiplicationFactory();
+                }
+                else //if (opr == '/')
+                {
+                    factory = new DivisionFactory();
+                }
+
+                #region 運算邏輯
+                caculator = factory.CreateCaculator();
+                caculator.InputOperands();
                 caculator.Caculate();
                 caculator.Output();
+                #endregion
 
-                Console.WriteLine("繼續(Y), 結束(N)");
-                var re = Console.ReadKey().KeyChar;
-                if (re != 'Y' && re != 'y')
-                {
-                    break;
-                }
-                else
+                Console.Write("繼續?(Y/y),  結束?(N/n))： ");
+                var tryagain = Console.ReadKey().KeyChar;
+                if (tryagain=='Y' || tryagain == 'y')
                 {
                     Console.Clear();
                 }
+                else
+                {
+                    break;
+                }
+
+
             }
 
+
+          
         }
 
     }
-    #region   產品
-    public interface ICaculate
+  
+   
+
+    #region  工廠
+    /// <summary>
+    /// 工廠父類別(抽象)
+    /// </summary>
+    public abstract class CaculatorFactory
     {
+        public abstract ICaculator CreateCaculator();
+    }
+
+    /// <summary>
+    /// 加法器工廠
+    /// </summary>
+    public class AdditionFactory : CaculatorFactory
+    {
+        public override ICaculator CreateCaculator()
+        {
+            return new AdditionCaculator();
+        }
+
+    }
+
+    /// <summary>
+    /// 減法器工廠
+    /// </summary>
+    public class SubtractionFactory : CaculatorFactory
+    {
+        public override ICaculator CreateCaculator()
+        {
+            return new SubtractionCaculator();
+        }
+    }
+
+    /// <summary>
+    /// 乘法器工廠
+    /// </summary>
+    public class  MutiplicationFactory : CaculatorFactory
+    {
+        public override ICaculator CreateCaculator()
+        {
+            return new MultiplicationCaculator();
+        }
+    }
+
+
+    /// <summary>
+    /// 除法器工廠
+    /// </summary>
+    public class DivisionFactory : CaculatorFactory
+    {
+        public override ICaculator CreateCaculator()
+        {
+            return new DivisionCaculator();
+        }
+    }
+
+
+
+   #endregion
+
+    #region 產品
+    /// <summary>
+    /// 計算器 interface
+    /// </summary>
+    public interface ICaculator
+    {
+       
         int OperandA { get; set; }
         int OperandB { get; set; }
         float Result { get; set; }
-        void InputOperandAndCheck();
+
+        void InputOperands();
         void Caculate();
 
         void Output();
     }
 
-    public class AdditionCulator : ICaculate
+    /// <summary>
+    /// 加法
+    /// </summary>
+    public class AdditionCaculator : ICaculator
     {
         public int OperandA { get; set; }
         public int OperandB { get; set; }
         public float Result { get; set; }
+
         public void Caculate()
         {
             Result = OperandA + OperandB;
         }
 
-        public void InputOperandAndCheck()
+        public void InputOperands()
         {
-            Console.WriteLine("輸入被加數：");
+            Console.Write("請輸入被加數：");
             var a = Console.ReadLine();
-            Console.WriteLine("輸入加數：");
-            var b = Console.ReadLine();
             OperandA = Convert.ToInt32(a);
+            Console.Write("請輸入加數：");
+            var b = Console.ReadLine();
             OperandB = Convert.ToInt32(b);
         }
 
         public void Output()
         {
-            Console.WriteLine("{0} + {1} = {2}", OperandA, OperandB, Result);
+            Console.WriteLine($"{OperandA} + {OperandB} = {(int)Result}");
         }
     }
-    public class SubtractionCulator : ICaculate
+
+
+    /// <summary>
+    /// 減法
+    /// </summary>
+    public class SubtractionCaculator : ICaculator
     {
         public int OperandA { get; set; }
         public int OperandB { get; set; }
         public float Result { get; set; }
+
         public void Caculate()
         {
-            Result = OperandA - OperandB;
+           Result = OperandA - OperandB;
         }
 
-        public void InputOperandAndCheck()
+        public void InputOperands()
         {
-            Console.WriteLine("輸入被減數：");
+            Console.Write("請輸入被減數：");
             var a = Console.ReadLine();
-            Console.WriteLine("輸入減數：");
-            var b = Console.ReadLine();
             OperandA = Convert.ToInt32(a);
+            Console.Write("請輸入減數：");
+            var b = Console.ReadLine();
             OperandB = Convert.ToInt32(b);
         }
 
         public void Output()
         {
-            Console.WriteLine("{0} - {1} = {2}", OperandA, OperandB, Result);
+            Console.WriteLine($"{OperandA} - {OperandB} = {(int)Result}");
+        }
+
+    }
+
+    public class MultiplicationCaculator : ICaculator
+    {
+        public int OperandA { get; set; }
+        public int OperandB { get; set; }
+        public float Result { get; set; }
+
+        public void Caculate()
+        {
+            Result = OperandA * OperandB;
+        }
+
+        public void InputOperands()
+        {
+            Console.Write("請輸入被乘數：");
+            var a = Console.ReadLine();
+            OperandA = Convert.ToInt32(a);
+            Console.Write("請輸入乘數：");
+            var b = Console.ReadLine();
+            OperandB = Convert.ToInt32(b);
+        }
+
+        public void Output()
+        {
+           
+            Console.WriteLine($"{OperandA} * {OperandB} = {Result}");
         }
     }
-    #endregion
 
-
-
-    #region  工廠
 
     /// <summary>
-    /// 各工廠的共同父類別(抽象) 
+    /// 除法
     /// </summary>
-    public abstract class CaculatorFactory
+    public class DivisionCaculator : ICaculator
     {
-        public abstract ICaculate CreateCaculator();
+        public int OperandA { get; set; }
+        public int OperandB { get; set; }
+        public float Result { get; set; }
 
-    }
-
-    public class AdditionCaculatorFactory : CaculatorFactory
-    {
-        public override ICaculate CreateCaculator()
+        public void Caculate()
         {
-            return new AdditionCulator();
+            Result = OperandA /(float) OperandB;
         }
-    }
-    public class SubtractionCaculatorFactory : CaculatorFactory
-    {
-        public override ICaculate CreateCaculator()
+
+        public void InputOperands()
         {
-            return new SubtractionCulator();
+            Console.Write("請輸入被除數：");
+            var a = Console.ReadLine();
+            OperandA = Convert.ToInt32(a);
+            Console.Write("請輸入除數：");
+            var b = Console.ReadLine();
+            OperandB = Convert.ToInt32(b);
+        }
+
+        public void Output()
+        {
+            Console.WriteLine($"{OperandA} / {OperandB} = {Result}");
         }
     }
     #endregion
-
-  
 }
