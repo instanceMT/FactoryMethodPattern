@@ -12,7 +12,7 @@ namespace FactoryMethodPattern
             while (true)
             {
                 Console.Write("請輸入運算方法(+, -, *, /)：");
-                var opr=Console.ReadKey().KeyChar;
+                var opr = Console.ReadKey().KeyChar;
                 Console.WriteLine();
                 if (opr == '+')
                 {
@@ -20,9 +20,9 @@ namespace FactoryMethodPattern
                 }
                 else if (opr == '-')
                 {
-                    factory= new SubtractionFactory();
+                    factory = new SubtractionFactory();
                 }
-                else if (opr=='*')
+                else if (opr == '*')
                 {
                     factory = new MutiplicationFactory();
                 }
@@ -40,7 +40,7 @@ namespace FactoryMethodPattern
 
                 Console.Write("繼續?(Y/y),  結束?(N/n))： ");
                 var tryagain = Console.ReadKey().KeyChar;
-                if (tryagain=='Y' || tryagain == 'y')
+                if (tryagain == 'Y' || tryagain == 'y')
                 {
                     Console.Clear();
                 }
@@ -53,12 +53,12 @@ namespace FactoryMethodPattern
             }
 
 
-          
+
         }
 
     }
-  
-   
+
+
 
     #region  工廠
     /// <summary>
@@ -95,7 +95,7 @@ namespace FactoryMethodPattern
     /// <summary>
     /// 乘法器工廠
     /// </summary>
-    public class  MutiplicationFactory : CaculatorFactory
+    public class MutiplicationFactory : CaculatorFactory
     {
         public override ICaculator CreateCaculator()
         {
@@ -117,7 +117,7 @@ namespace FactoryMethodPattern
 
 
 
-   #endregion
+    #endregion
 
     #region 產品
     /// <summary>
@@ -125,7 +125,7 @@ namespace FactoryMethodPattern
     /// </summary>
     public interface ICaculator
     {
-       
+
         int OperandA { get; set; }
         int OperandB { get; set; }
         float Result { get; set; }
@@ -178,7 +178,7 @@ namespace FactoryMethodPattern
 
         public void Caculate()
         {
-           Result = OperandA - OperandB;
+            Result = OperandA - OperandB;
         }
 
         public void InputOperands()
@@ -221,7 +221,7 @@ namespace FactoryMethodPattern
 
         public void Output()
         {
-           
+
             Console.WriteLine($"{OperandA} * {OperandB} = {Result}");
         }
     }
@@ -238,7 +238,7 @@ namespace FactoryMethodPattern
 
         public void Caculate()
         {
-            Result = OperandA /(float) OperandB;
+            Result = OperandA / (float)OperandB;
         }
 
         public void InputOperands()
