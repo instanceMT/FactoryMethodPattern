@@ -7,7 +7,7 @@ namespace FactoryMethodPattern
     {
         static void Main(string[] args)
         {
-            CaculatorFactory factory = null;
+            ICaculatorFactory factory = null;
             ICaculator caculator = null;
             while (true)
             {
@@ -64,17 +64,17 @@ namespace FactoryMethodPattern
     /// <summary>
     /// 工廠父類別(抽象)
     /// </summary>
-    public abstract class CaculatorFactory
+    public interface ICaculatorFactory
     {
-        public abstract ICaculator CreateCaculator();
+        ICaculator CreateCaculator();
     }
 
     /// <summary>
     /// 加法器工廠
     /// </summary>
-    public class AdditionFactory : CaculatorFactory
+    public class AdditionFactory : ICaculatorFactory
     {
-        public override ICaculator CreateCaculator()
+        public  ICaculator CreateCaculator()
         {
             return new AdditionCaculator();
         }
@@ -84,9 +84,9 @@ namespace FactoryMethodPattern
     /// <summary>
     /// 減法器工廠
     /// </summary>
-    public class SubtractionFactory : CaculatorFactory
+    public class SubtractionFactory : ICaculatorFactory
     {
-        public override ICaculator CreateCaculator()
+        public  ICaculator CreateCaculator()
         {
             return new SubtractionCaculator();
         }
@@ -95,9 +95,9 @@ namespace FactoryMethodPattern
     /// <summary>
     /// 乘法器工廠
     /// </summary>
-    public class MutiplicationFactory : CaculatorFactory
+    public class MutiplicationFactory : ICaculatorFactory
     {
-        public override ICaculator CreateCaculator()
+        public  ICaculator CreateCaculator()
         {
             return new MultiplicationCaculator();
         }
@@ -107,9 +107,9 @@ namespace FactoryMethodPattern
     /// <summary>
     /// 除法器工廠
     /// </summary>
-    public class DivisionFactory : CaculatorFactory
+    public class DivisionFactory : ICaculatorFactory
     {
-        public override ICaculator CreateCaculator()
+        public  ICaculator CreateCaculator()
         {
             return new DivisionCaculator();
         }
