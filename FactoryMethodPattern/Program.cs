@@ -38,7 +38,7 @@ namespace FactoryMethodPattern
                 caculator.Output();
                 #endregion
 
-                Console.Write("繼續?(Y/y),  結束?(N/n))： ");
+                Console.Write("繼續?(Y/y),  結束?(N/n)： ");
                 var tryagain = Console.ReadKey().KeyChar;
                 if (tryagain == 'Y' || tryagain == 'y')
                 {
